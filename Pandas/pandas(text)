@@ -1,0 +1,248 @@
+What is Pandas?
+
+* It is an open source library written in python.
+* It leverages the power and speed of numpy to make data analysis and preprocessing easy for operations.
+* It provides rich and highly robust data operations.
+
+Pandas has two types of data structures:
+* 1) Series - It is a one dimensional array with indexes, it stores a single column or row of data in a Dataframe. (similar datatype throughout)
+* 2) Dataframe - It is a tabular spreadsheet like structure representing rows each of which contains one or multiple columns. (different columns may have disimilar datatype)
+
+                                                           --Ahmad Raza
+
+Documentation Link: https://pandas.pydata.org/docs/user_guide/index.html
+
+import pandas as pd
+
+import numpy as np
+
+ditcl = { #creating a dictionary in python
+    "name":['roshan', 'suman', 'sanju', 'samadh'],
+    "marks":[92, 34, 24, 97],
+    "city":['rampur',' kolkata', 'bareilly', 'antartica']
+}
+
+df = pd.DataFrame(ditcl) #creating a data frame
+
+df #displaying the data frame
+
+df.to_csv('friends.csv') #creating a CSV file from created data
+
+df.to_csv('friends_index_false.csv', index=False) #CSV File without indexs
+
+data = pd.read_csv('train.csv') #dataframe containing 700 random values of x and y
+
+data #glimpse of dataset
+
+data.head() #displays a glimpse of dataset from beginning
+
+data.head(2) #displays first 2 rows of the dataset
+
+data.tail() #displays a glimpse of dataset from bottom
+
+data.tail(2) #displays last 2 rows of the data frame
+
+data['x'] #gives all the values of the column 'x'
+
+data['x'][3] #gives value of the element at 3rd index in the x column
+
+data['x'][2]=25 #updates value in the dataset
+
+data.describe() #statistical analysis of data frame
+
+df.index = ['Info 1','Info 2','Info 3','Info 4'] #changing the index names
+
+df
+
+df.columns = ['Names', 'Marks', 'City'] #changing column names
+
+df
+
+type(df['Marks']) #Series - 1D Array
+
+type(df) #Dataframe - 2D Array
+
+ser = pd.Series(np.random.rand(34)) #series or 1D having random values and size n, here, n=34
+
+print(ser, type(ser))
+
+newdf = pd.DataFrame(np.random.rand(334,5), index=np.arange(334)) #generates a dataframe of size m*n having random values, here, m=334 and n=5
+
+newdf.head()
+
+newdf.describe()
+
+type(newdf)
+
+newdf.dtypes #displays the datatype of each column
+
+newdf[0][0]="harry" #Implicit type conversion to object type
+
+newdf.dtypes #datatype of first column is changed
+
+newdf.head()
+
+newdf.index #indexes of all rows
+
+newdf.columns #number of columns is dataframe
+
+newdf.to_numpy #conversion to a numpy array
+
+newdf[0][0]=0.3210
+
+newdf.head()
+
+newdf.T #transpose of the dataset
+
+newdf.sort_index(axis=0, ascending=False) #sort the index of the rows, axis =0 represents rows, bydefault ascending is true 
+
+newdf.sort_index(axis=1, ascending=False) #sort the index of the rows, axis =1 represents columns, bydefault ascending is true 
+
+newdf.head()
+
+newdf[0] #prints series, that is first column
+
+newdf2 = newdf #newdf2 becomes a view of newdf, call by reference
+
+newdf2[0][0]=9878
+
+newdf #changes are reflected in actual dataset
+
+newdf3=newdf.copy() #copying the dataset
+
+newdf3[0][0]=3
+
+newdf.head() #changes not reflected in the actual dataset, call by value
+
+newdf.loc[0,0] = 654
+
+newdf.head(2)
+
+newdf.columns = list("ABCDE") #renaming the columns
+
+newdf.loc[1,'A'] = 456
+
+newdf.head(2)
+
+newdf.loc[0,0] = 231
+
+newdf.head()
+
+newdf = newdf.drop(0, axis=1) #deletes the column 0
+
+newdf.head()
+
+newdf.loc[[1,2,3,4],['C','D']] #to extract a sub-matrix from the whole matrix
+
+newdf.loc[:,['C','D']] #to extract particular columns
+
+newdf.loc[[1,2],:] #to extract particular rows
+
+newdf.loc[(newdf['A']<0.3)] #prints out all the rows of which the A column has value less 0.3
+
+newdf.loc[(newdf['A']<0.3) & (newdf['C']>0.5)] #prints out all the rows which satisfy the given conditions
+
+-----------------------------------------------------------------------------
+Using 'loc' function, you can use names of the rows and columns to refer a cell or a set of cells.
+
+Similarly using 'iloc' funtion, you can refer a cell or a set of cells using their index numbers.
+
+-----------------------------------------------------------------------------
+
+
+newdf.iloc[0,4]
+
+newdf.iloc[[0,5],[1,2]] #first and sixth elements of second and third columns
+
+newdf.index[1], newdf.index[3] # returns the label of the 1st row and the 3rd row
+
+newdf.head()
+
+newdf.drop([0]) #deletes the nth row, here, n=0
+
+newdf.drop(['A', 'C'], axis=1) #deletes the mentioned columns where axis=1 signifies the column operations
+
+newdf.drop(['B','D'], axis=1, inplace=True) #inplace function actually deletes the functions from the dataset without having to assign the dataset with return of the drop function, i.e., we need not write newdf=newdf.drop(---), using inplace newdf.drop(--, inplace=True) does the same job
+
+newdf.head(3)
+
+newdf.reset_index() #the function resets the index numbering by creating a new column for indexs
+
+newdf.reset_index(drop=True, inplace=True) #the drop function will prevent the reset_index function from creating a new column
+
+newdf.head()
+
+_____________________________________________________________________________
+One of the important feature of the Pandas library is the ability to perform operations on the cells containing NaN, NULL or Infinity values.
+_____________________________________________________________________________
+
+newdf.loc[:,['A']] = None #makes all the values of the column 'A' as Null/x
+
+newdf
+
+newdf.isnull().sum() #displays total number of NaN entries in each column
+
+newdf['A'].isnull() #displays the list of series where the cell of ith index having NULL value has True written infront of it
+
+dfn = pd.DataFrame({"name": ['Sateesh', 'Sambhav', 'Drake'], "car": [np.nan, 'Porche', 'Lamborgini'], "born": [pd.NaT, pd.Timestamp("1949-09-29"), pd.NaT]})
+
+dfn.head()
+
+dfn.dropna() #drops all the rows containing NaN
+
+dfn.dropna(how='all', axis=1) #remove a column only if all the values in that column are NaN
+
+dfn.drop_duplicates(subset=['name'], keep='first') #drops the rows containing the duplicates in the mentioned column, leaving the first element
+
+dfn.drop_duplicates(subset=['name'], keep='last') #drops the rows containing the duplicates in the mentioned column, leaving the last element
+
+dfn.drop_duplicates(subset=['name'], keep=False) #drops the rows containing the duplicates in the mentioned column, leaving no similarly identified variable behind
+
+dfn.info() #displays information about the dataframe
+
+dfn['name'].value_counts(dropna=False) #displays the occurence of each distinct object in the series, dropna=False signifies that NaN values are also counted
+
+dfn.notnull() #displays a matrix and each cell is assigned either true or false where if the cell doesn't have NaN then it displays true else false
+
+dfn.isnull() #displays a matrix and each cell is assigned either true or false where if the cell has NaN then it displays true else false
+
+data = pd.read_excel('name.xlsx', sheet_name='Sheetx') #You can import x sheet from y.xlsx excel sheet and perform operation on that. Install xlrd before impoerting excel sheet
+
+data.to_excel('name.xlsx', sheet_name='Sheetx') #save data to excel file, install openpyxl before writing an excel sheet
+
+Probelm:
+-------------
+* Create a dataframe which contains only integers with 3 rows and 2 columns. * Perform the following functions on the dataframes:
+_____________________________________________________________________________
+1. df.describe()
+2. df.mean()
+3. df.corr()
+4. df.count()
+5. df.max()
+6. df.min()
+7. df.median()
+8. df.std()
+_____________________________________________________________________________
+
+arr = {'C1':[1,2,3], 'C2':[4,5,6]}
+
+pdf = pd.DataFrame(arr)
+
+pdf
+
+pdf.describe()
+
+pdf.mean() #used to caluculate mean(average) value of each column
+
+pdf.corr() #used to compute the pairwise correlation between columns of a DataFrame. It calculates the correlation coefficient, which is a measure of the linear relationship between two variables
+
+pdf.count() #counts total number of entities in each column
+
+pdf.max() #finds maximum value in each column
+
+pdf.min() #finds minimum value in each column
+
+pdf.median() #finds median of all values of a column
+
+pdf.std() #finds standard deviation between all values of each column
+
